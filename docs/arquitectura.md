@@ -1,0 +1,1 @@
+Diagrama de la arquitectua del sistema en .png .svg

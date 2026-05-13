@@ -1,0 +1,49 @@
+Fase 1: Models y Connectors (Java)
+
+- Crear WeatherData.java
+
+- Crear PredictionResult.java
+
+- Crear WeatherAPIConnector.java
+
+- Crear PythonConnector.java
+
+Fase 2: Modelo ML (Python)
+
+- Descargar dataset de Kaggle (ej: weatherAUS.csv)
+
+- Crear entrenar_modelo.py
+
+- Entrenar red neuronal
+
+- Guardar weather_model.h5 y scaler.pkl
+
+- Crear predict.py
+
+- Crear requirements.txt
+
+Fase 3: Behaviours (Java)
+
+- Modificar PerceptionBehaviour (consultar API, enviar a ML) (Hay que parsear los datos JSON de la Api)
+
+- Modificar MLBehaviour (recibir, llamar a Python, enviar resultado)
+
+- Modificar InterfaceBehaviour (recibir, mostrar UI)
+
+- Añadir filtros bloqueantes (MessageTemplate)
+
+Fase 4: Interfaz gráfica (Java)
+
+- Completar UtilsUI.java
+
+- Crear ventana de resultados (JFrame)
+
+Fase 5: Documentación
+
+- Crear README.md
+
+- Crear docs/arquitectura.png
+
+- Rellenar docs/declaracion-IA.md
+
+- Rellenar docs/instrucciones.md

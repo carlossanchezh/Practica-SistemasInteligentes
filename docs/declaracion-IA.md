@@ -1,0 +1,1 @@
+Declaracion de uso de IA en la practica
