@@ -35,7 +35,7 @@ public class Utils {
                 msg.setContentObject(contenido);
                 agente.send(msg);
 
-                System.out.println("Mensaje Enviado: " + agente.getLocalName() + " → " + destino.getLocalName());
+                System.out.println("Mensaje Enviado: " + agente.getLocalName() + " -> " + destino.getLocalName());
             } else {
                 System.out.println("No se encontró servicio: " + tipoServicio);
             }
@@ -66,7 +66,7 @@ public class Utils {
                 msg.setContentObject(contenido);
                 agente.send(msg);
 
-                System.out.println("Inform Enviado: " + agente.getLocalName() + " → " + destino.getLocalName());
+                System.out.println("Inform Enviado: " + agente.getLocalName() + " -> " + destino.getLocalName());
             } else {
                 System.out.println("No se encontró servicio: " + tipoServicio);
             }
