@@ -51,6 +51,7 @@ venv/
 *.h5
 *.pkl
 *.joblib
+*.keras
 
 ### Config files with keys ###
 config.properties

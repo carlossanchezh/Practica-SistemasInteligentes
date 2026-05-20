@@ -1,6 +1,6 @@
 package es.upm.ssii.practica.prediccionClima.behaviours;
 
-import es.upm.ssii.practica.prediccionClima.utils.WeatherConnector;
+import es.upm.ssii.practica.prediccionClima.connectors.WeatherConnector;
 import es.upm.ssii.practica.prediccionClima.utils.Utils;
 import jade.core.behaviours.TickerBehaviour;
 import jade.core.Agent;

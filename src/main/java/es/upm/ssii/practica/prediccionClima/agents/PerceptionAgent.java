@@ -11,6 +11,10 @@ public class PerceptionAgent extends AgentBase {
 
     @Override
     protected void setup() {
+        super.setup(); //setup de AgentBase (inicializa el agente en JADE) y recoge parametros si tiene
+        this.type = AgentModel.PERCEPCION; // asigna que es el agente de RECEPCION
+        registerAgentDF(); // registra el agente en el DF para que otros puedan encontrarlo
+
         addBehaviour(new PerceptionBehaviour(this, 30000)); //cada 30 segundos se envía info actualizada
     }
 

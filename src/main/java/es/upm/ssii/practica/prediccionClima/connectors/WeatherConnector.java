@@ -1,4 +1,4 @@
-package es.upm.ssii.practica.prediccionClima.utils;
+package es.upm.ssii.practica.prediccionClima.connectors;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

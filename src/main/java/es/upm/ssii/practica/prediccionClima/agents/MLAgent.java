@@ -13,12 +13,12 @@ public class MLAgent extends AgentBase {
 
         System.out.println("Agente ML iniciado - Sen encarga de predecir el clima");
 
-        super.setup();
-        this.type = AgentModel.ML;
+        super.setup(); //setup de AgentBase (inicializa el agente en JADE) y recoge parametros si tiene
+        this.type = AgentModel.ML; // asigna que es el agente de ML
+        registerAgentDF();
 
         addBehaviour(new MLBehaviour(this));
 
-        registerAgentDF();
 
     }
 
