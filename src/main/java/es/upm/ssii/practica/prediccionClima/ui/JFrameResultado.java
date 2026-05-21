@@ -253,15 +253,4 @@ public class JFrameResultado extends JFrame {
         return ROJO_MAX;
     }
 
-    /** main() solo para pruebas visuales. Eliminar en producción. */
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            PredictionResult demo = new PredictionResult(
-                    29.1, 17.4, 23.3,
-                    0.25, 0.08,
-                    "Ropa ligera"
-            );
-            new JFrameResultado(demo).setVisible(true);
-        });
-    }
 }
