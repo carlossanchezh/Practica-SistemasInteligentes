@@ -19,8 +19,8 @@ public class MLBehaviour  extends CyclicBehaviour {
         //recibe mensajes inform que le manda el agente de percepcion
         ACLMessage mensaje = myAgent.receive(MessageTemplate.MatchPerformative(ACLMessage.INFORM));
         if(mensaje != null) {
-        	try {
-        		String json = (String)mensaje.getContentObject();//obtener json del mensaje
+        	
+        		String json = mensaje.getContent();//obtener json del mensaje
         		System.out.println("Mensaje recibido en ML:");
         		System.out.println(json);
         		
@@ -60,9 +60,7 @@ public class MLBehaviour  extends CyclicBehaviour {
         		//envia peticion al agente de interfaz
         		Utils.enviarInform(myAgent, "Interfaz", jsonPrediccion);
         		System.out.println("Prediccion enviada al agente interfaz");
-        	} catch(UnreadableException e) {
-        		e.printStackTrace();
-        	}
+        	
         }
         else { //si no llega mensaje el agente espera
         	block();
@@ -121,7 +119,8 @@ public class MLBehaviour  extends CyclicBehaviour {
     			"  \"temperatura_media\": "+ prediccion[2] +",\n" +
     			"  \"nubosidad\": "+ prediccion[3] +",\n" +
     			"  \"probabilidad_lluvia\": "+ prediccion[4] +",\n" +
-    			"  \"recomendacion\": "+ recomendacion +"\"\n" + "}";
+    			"  \"recomendacion\": \"" + recomendacion + "\"\n" +
+                "}";
     	return json;
     }
 

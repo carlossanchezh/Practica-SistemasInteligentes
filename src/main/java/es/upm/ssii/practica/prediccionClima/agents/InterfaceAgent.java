@@ -1,24 +1,38 @@
 package es.upm.ssii.practica.prediccionClima.agents;
 
+import es.upm.ssii.practica.prediccionClima.behaviours.InterfaceBehaviour;
 import es.upm.ssii.practica.prediccionClima.launcher.AgentBase;
 import es.upm.ssii.practica.prediccionClima.launcher.AgentModel;
-import es.upm.ssii.practica.prediccionClima.behaviours.InterfaceBehaviour;
+import jade.domain.DFService;
+import jade.domain.FIPAAgentManagement.DFAgentDescription;
+import jade.domain.FIPAAgentManagement.ServiceDescription;
+import jade.domain.FIPAException;
+
 
 public class InterfaceAgent extends AgentBase {
 
     private static final long serialVersionUID = 1L;
     public static final String NICKNAME = "Interfaz";
 
+    @Override
     protected void setup() {
+        System.out.println("[InterfaceAgent] Iniciando: " + getLocalName());
 
-        System.out.println("Agente Interfaz iniciado - Muestra los resultados al usuario mediante una interfaz");
-
-        super.setup(); //setup de AgentBase (inicializa el agente en JADE) y recoge parametros si tiene
-        this.type = AgentModel.INTERFAZ; // asigna que es el agente de INTERFAZ
-        registerAgentDF(); // registra el agente en el DF para que otros puedan encontrarlo
-
+        super.setup();                      // setup de AgentBase
+        this.type = AgentModel.INTERFAZ;    
+        registerAgentDF();                  
         addBehaviour(new InterfaceBehaviour(this));
 
+        System.out.println("[InterfaceAgent] Registrado en DF y esperando predicciones.");
+    }
 
+    @Override
+    protected void takeDown() {
+        try {
+            DFService.deregister(this);
+            System.out.println("[InterfaceAgent] Desregistrado del DF.");
+        } catch (FIPAException e) {
+            System.err.println("[InterfaceAgent] Error al desregistrar: " + e.getMessage());
+        }
     }
 }

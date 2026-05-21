@@ -63,7 +63,7 @@ public class Utils {
                 // Crear y enviar mensaje
                 ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
                 msg.addReceiver(destino);
-                msg.setContentObject(contenido);
+                msg.setContent((String) contenido);
                 agente.send(msg);
 
                 System.out.println("Inform Enviado: " + agente.getLocalName() + " -> " + destino.getLocalName());
