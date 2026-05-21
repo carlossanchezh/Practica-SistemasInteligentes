@@ -135,8 +135,12 @@ os.makedirs('normalizadores', exist_ok=True)
 # ============================================
 
 #Dtaset: https://www.kaggle.com/datasets/mahdiehhajian/madrid-daily-weather?resource=download
+# Obtener la ruta donde está el csv
+script_dir = os.path.dirname(os.path.abspath(__file__))
+csv_path = os.path.join(script_dir, 'Madrid Daily Weather 1997-2015.csv')
+
 #Guaradar el csv en una variable
-df = pd.read_csv('Madrid Daily Weather 1997-2015.csv')
+df = pd.read_csv(csv_path)
 
 # ============================================
 # LIMPIAR DATOS
@@ -163,6 +167,7 @@ df['temp_max_manana'] = df['Max TemperatureC'].shift(-1)
 df['temp_min_manana'] = df['Min TemperatureC'].shift(-1)
 df['temp_mean_manana'] = df['Mean TemperatureC'].shift(-1)
 df['cloud_cover_manana'] = df[' CloudCover'].shift(-1)
+df['wind_speed_manana'] = df[' Mean Wind SpeedKm/h'].shift(-1)
 df['events_manana'] = df[' Events'].shift(-1)
 
 df['lluvia_manana'] = df['events_manana'].apply(tiene_lluvia).astype(int)
@@ -173,7 +178,7 @@ df['lluvia_manana'] = df['events_manana'].apply(tiene_lluvia).astype(int)
 
 #Al hacer shift la ultima fila se quedara con nulos hay que limpiarla
 #Eliminar filas donde las columnas tengan nulos
-columnas_desplazadas = ['temp_max_manana', 'temp_min_manana', 'temp_mean_manana', 'cloud_cover_manana', 'lluvia_manana']
+columnas_desplazadas = ['temp_max_manana', 'temp_min_manana', 'temp_mean_manana', 'cloud_cover_manana','wind_speed_manana','lluvia_manana']
 df = df.dropna(subset=columnas_desplazadas)
 
 
@@ -190,6 +195,7 @@ y_temp_max = df['temp_max_manana'].values
 y_temp_min = df['temp_min_manana'].values
 y_temp_mean = df['temp_mean_manana'].values
 y_cloud = df['cloud_cover_manana'].values
+y_wind = df['wind_speed_manana'].values
 y_rain = df['lluvia_manana'].values
 
 
@@ -197,12 +203,15 @@ y_rain = df['lluvia_manana'].values
 # NORMALIZAR DATOS
 # ============================================
 
+# Construir rutas absolutas
+normalizadores_dir = os.path.join(script_dir, 'normalizadores')
+
 #Normalizar datos de entrada
 scaler_X = StandardScaler()
 X_scaled = scaler_X.fit_transform(X)
 
 #Guarda el normalizador para normalizar los datos de entrada
-joblib.dump(scaler_X, 'normalizadores/scaler_X.pkl')
+joblib.dump(scaler_X, os.path.join(normalizadores_dir, 'scaler_X.pkl'))
 
 
 # =====================================================
@@ -216,10 +225,11 @@ X_train, X_val, \
     y_temp_min_train, y_temp_min_val, \
     y_temp_mean_train, y_temp_mean_val, \
     y_cloud_train, y_cloud_val, \
+    y_wind_train, y_wind_val, \
     y_rain_train, y_rain_val = train_test_split(
     X_scaled,
     y_temp_max, y_temp_min, y_temp_mean,
-    y_cloud, y_rain,
+    y_cloud, y_wind, y_rain,
     test_size=0.2, #20% vaidacion
     random_state=0 #la division de los datos siempre sera la misma en cada entrenamiento
 )
@@ -260,12 +270,17 @@ def crear_modelo(input_dim, output_activation):
 # ============================================
 # CONFIGURACIÓN DE CALLBACKS
 # ============================================
+
+# Construir rutas absolutas
+modelos_dir = os.path.join(script_dir, 'modelos')
+
 #Un checkpoint para cada modelo
-checkpoint_temp_max = ModelCheckpoint('modelos/mejor_modelo_temp_max.keras', monitor='val_loss', verbose=1, save_best_only=True)
-checkpoint_temp_min = ModelCheckpoint('modelos/mejor_modelo_temp_min.keras', monitor='val_loss', verbose=1, save_best_only=True)
-checkpoint_temp_mean = ModelCheckpoint('modelos/mejor_modelo_temp_mean.keras', monitor='val_loss', verbose=1, save_best_only=True)
-checkpoint_cloud = ModelCheckpoint('modelos/mejor_modelo_cloud.keras', monitor='val_loss', verbose=1, save_best_only=True)
-checkpoint_rain = ModelCheckpoint('modelos/mejor_modelo_rain.keras', monitor='val_loss', verbose=1, save_best_only=True)
+checkpoint_temp_max = ModelCheckpoint(os.path.join(modelos_dir, 'mejor_modelo_temp_max.keras'), monitor='val_loss', verbose=1, save_best_only=True)
+checkpoint_temp_min = ModelCheckpoint(os.path.join(modelos_dir, 'mejor_modelo_temp_min.keras'), monitor='val_loss', verbose=1, save_best_only=True)
+checkpoint_temp_mean = ModelCheckpoint(os.path.join(modelos_dir, 'mejor_modelo_temp_mean.keras'), monitor='val_loss', verbose=1, save_best_only=True)
+checkpoint_cloud = ModelCheckpoint(os.path.join(modelos_dir, 'mejor_modelo_cloud.keras'), monitor='val_loss', verbose=1, save_best_only=True)
+checkpoint_wind = ModelCheckpoint(os.path.join(modelos_dir, 'mejor_modelo_wind.keras'), monitor='val_loss', verbose=1, save_best_only=True)
+checkpoint_rain = ModelCheckpoint(os.path.join(modelos_dir, 'mejor_modelo_rain.keras'), monitor='val_loss', verbose=1, save_best_only=True)
 
 early_stop = EarlyStopping(monitor='val_loss', patience=PATIENCE_STOP, verbose=1)
 reduce_lr = ReduceLROnPlateau('val_loss', factor=0.1, patience=PATIENCE_REDUCE, verbose=1)
@@ -282,7 +297,7 @@ y_train_scaled = scaler_temp_max.fit_transform(y_temp_max_train.reshape(-1, 1)).
 y_val_scaled = scaler_temp_max.transform(y_temp_max_val.reshape(-1, 1)).flatten()
 
 #Guardar normalizador
-joblib.dump(scaler_temp_max, 'normalizadores/scaler_temp_max.pkl')
+joblib.dump(scaler_temp_max, os.path.join(normalizadores_dir, 'scaler_temp_max.pkl'))
 
 # Crear modelo
 model = crear_modelo(X_train.shape[1], 'linear')
@@ -304,7 +319,7 @@ y_train_scaled = scaler_temp_min.fit_transform(y_temp_min_train.reshape(-1, 1)).
 y_val_scaled = scaler_temp_min.transform(y_temp_min_val.reshape(-1, 1)).flatten()
 
 #Guardar normalizador
-joblib.dump(scaler_temp_min, 'normalizadores/scaler_temp_min.pkl')
+joblib.dump(scaler_temp_min, os.path.join(normalizadores_dir, 'scaler_temp_min.pkl'))
 
 # Crear modelo
 model = crear_modelo(X_train.shape[1], 'linear')
@@ -326,7 +341,7 @@ y_train_scaled = scaler_temp_mean.fit_transform(y_temp_mean_train.reshape(-1, 1)
 y_val_scaled = scaler_temp_mean.transform(y_temp_mean_val.reshape(-1, 1)).flatten()
 
 #Guardar normalizador
-joblib.dump(scaler_temp_mean, 'normalizadores/scaler_temp_mean.pkl')
+joblib.dump(scaler_temp_mean, os.path.join(normalizadores_dir, 'scaler_temp_mean.pkl'))
 
 # Crear modelo
 model = crear_modelo(X_train.shape[1], 'linear')
@@ -348,7 +363,7 @@ y_train_scaled = scaler_cloud.fit_transform(y_cloud_train.reshape(-1, 1)).flatte
 y_val_scaled = scaler_cloud.transform(y_cloud_val.reshape(-1, 1)).flatten()
 
 #Guardar normalizador
-joblib.dump(scaler_cloud, 'normalizadores/scaler_cloud.pkl')
+joblib.dump(scaler_cloud, os.path.join(normalizadores_dir, 'scaler_cloud.pkl'))
 
 # Crear modelo
 model = crear_modelo(X_train.shape[1], 'linear')
@@ -359,7 +374,29 @@ model.fit(X_train, y_train_scaled, validation_data=(X_val, y_val_scaled),
           epochs=EPOCHS, batch_size=BATCH_SIZE, callbacks = [checkpoint_cloud, reduce_lr, early_stop, terminate], verbose=1)
 
 # ============================================
-# ENTRENAR MODELO 5: rain
+# ENTRENAR MODELO 5: wind_speed
+# ============================================
+
+#Normalizador especifico para el viento
+scaler_wind = StandardScaler()
+
+#Normalizar datos de entrenamiento y validacion
+y_train_scaled = scaler_wind.fit_transform(y_wind_train.reshape(-1, 1)).flatten()
+y_val_scaled = scaler_wind.transform(y_wind_val.reshape(-1, 1)).flatten()
+
+#Guardar normalizador
+joblib.dump(scaler_wind, os.path.join(normalizadores_dir, 'scaler_wind.pkl'))
+
+# Crear modelo
+model = crear_modelo(X_train.shape[1], 'linear')
+model.compile(optimizer='adam', loss='mse', metrics=['mae'])
+
+#Entrenar modelo
+model.fit(X_train, y_train_scaled, validation_data=(X_val, y_val_scaled),
+          epochs=EPOCHS, batch_size=BATCH_SIZE, callbacks = [checkpoint_wind, reduce_lr, early_stop, terminate], verbose=1)
+
+# ============================================
+# ENTRENAR MODELO 6: rain
 # ============================================
 
 #Para clasificacion binaria no se normaliza la salida (es 0 o 1)

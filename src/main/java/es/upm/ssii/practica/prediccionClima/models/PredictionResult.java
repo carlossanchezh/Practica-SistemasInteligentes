@@ -20,6 +20,7 @@ public class PredictionResult {
     private double temperaturaMin;
     private double temperaturaMedia;
     private double nubosidad;
+    private double velocidadViento;
     private double probabilidadLluvia;
     private String recomendacion;
 
@@ -28,11 +29,12 @@ public class PredictionResult {
 
     // Constructor completo
     public PredictionResult(double temperaturaMax, double temperaturaMin, double temperaturaMedia,
-                            double nubosidad, double probabilidadLluvia, String recomendacion) {
+                            double nubosidad, double velocidadViento, double probabilidadLluvia, String recomendacion) {
         this.temperaturaMax     = temperaturaMax;
         this.temperaturaMin     = temperaturaMin;
         this.temperaturaMedia   = temperaturaMedia;
         this.nubosidad          = nubosidad;
+        this.velocidadViento    = velocidadViento;
         this.probabilidadLluvia = probabilidadLluvia;
         this.recomendacion      = recomendacion;
     }
@@ -50,6 +52,9 @@ public class PredictionResult {
 
     public double getNubosidad()          { return nubosidad; }
     public void setNubosidad(double v)    { this.nubosidad = v; }
+
+    public double getVelocidadViento() { return velocidadViento; }
+    public void setVelocidadViento(double v) { this.velocidadViento = v; }
 
     public double getProbabilidadLluvia() { return probabilidadLluvia; }
     public void setProbabilidadLluvia(double v) { this.probabilidadLluvia = v; }
@@ -69,6 +74,7 @@ public class PredictionResult {
             r.temperaturaMin     = extraerDouble(json, "temperatura_min");
             r.temperaturaMedia   = extraerDouble(json, "temperatura_media");
             r.nubosidad          = extraerDouble(json, "nubosidad");
+            r.velocidadViento    = extraerDouble(json, "velocidad_viento");
             r.probabilidadLluvia = extraerDouble(json, "probabilidad_lluvia");
             r.recomendacion      = extraerString(json, "recomendacion");
         } catch (Exception e) {
@@ -137,6 +143,7 @@ public class PredictionResult {
                ", min=" + temperaturaMin +
                ", media=" + temperaturaMedia +
                ", nubosidad=" + nubosidad +
+                ", viento=" + velocidadViento +
                ", prob_lluvia=" + probabilidadLluvia +
                ", recomendacion='" + recomendacion + '\'' +
                '}';

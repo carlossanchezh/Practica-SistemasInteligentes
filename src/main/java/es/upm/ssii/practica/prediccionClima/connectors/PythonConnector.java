@@ -28,19 +28,22 @@ public class PythonConnector {
 
             while((linea = reader.readLine()) != null ){ //Buscar la linea resultado (evitar warnings y logs)
 
-                String[] partes = linea.split(","); //Trata de dividir la linea en partes separadas por ','
+                linea = linea.trim();
+                if (linea.matches("^[\\d\\.,\\s-]+$")) { //formato de la salida python
 
-                if (partes.length == 5) { //si hay 5 partes
+                    String[] partes = linea.split(","); //Trata de dividir la linea en partes separadas por ','
 
-                    resultado = new double[5];
+                    if (partes.length == 6) { //si hay 6 partes
 
-                    for (int i = 0; i < 5; i++) {
-                        resultado[i] = Double.parseDouble(partes[i]); //añade las partes al array resultado
+                        resultado = new double[6];
+
+                        for (int i = 0; i < 6; i++) {
+                            resultado[i] = Double.parseDouble(partes[i]); //añade las partes al array resultado
+                        }
+
+                        break;  // Salir del bucle
                     }
-
-                    break;  // Salir del bucle
                 }
-
             }
 
 
@@ -69,7 +72,7 @@ public class PythonConnector {
         double[] r1 = ejecutarPrediccion(15.0, 65, 8.0, 3);
         if (r1 != null) {
             System.out.println("  Resultado: " + r1[0] + "," + r1[1] + "," +
-                    r1[2] + "," + (int) r1[3] + "," + r1[4]);
+                    r1[2] + "," + (int) r1[3] + "," + r1[4] + "," + r1[5]);
         } else {
             System.out.println("  ERROR");
         }
@@ -78,7 +81,7 @@ public class PythonConnector {
         double[] r2 = ejecutarPrediccion(28.0, 45, 12.0, 2);
         if (r2 != null) {
             System.out.println("  Resultado: " + r2[0] + "," + r2[1] + "," +
-                    r2[2] + "," + (int) r2[3] + "," + r2[4]);
+                    r2[2] + "," + (int) r2[3] + "," + r2[4] + "," + r2[5]);
         } else {
             System.out.println("  ERROR");
         }

@@ -15,6 +15,7 @@ public class MLBehaviour  extends CyclicBehaviour {
         super(agent);
     }
 
+	@Override
     public void action() {
         //recibe mensajes inform que le manda el agente de percepcion
         ACLMessage mensaje = myAgent.receive(MessageTemplate.MatchPerformative(ACLMessage.INFORM));
@@ -46,10 +47,11 @@ public class MLBehaviour  extends CyclicBehaviour {
         		System.out.println("Temperatura min: "+ prediccion[1]);
         		System.out.println("Temperatura media: "+ prediccion[2]);
         		System.out.println("Nubosidad: "+ prediccion[3]);
-        		System.out.println("Probabilidad lluvia: "+ prediccion[4]);
+				System.out.println("Velocidad del viento: "+ prediccion[4]);
+        		System.out.println("Probabilidad lluvia: "+ prediccion[5]);
         		
         		//genera recomendacion sencilla de ropa segun prediccion
-        		String recomendacion = generarRecomendacion(prediccion[2], prediccion[4]);
+        		String recomendacion = generarRecomendacion(prediccion[2], prediccion[5]);
         		System.out.println("Recomendacion: "+ recomendacion);
         		
         		//creamos json de la prediccion final
@@ -118,7 +120,8 @@ public class MLBehaviour  extends CyclicBehaviour {
     			"  \"temperatura_min\": "+ prediccion[1] +",\n" +
     			"  \"temperatura_media\": "+ prediccion[2] +",\n" +
     			"  \"nubosidad\": "+ prediccion[3] +",\n" +
-    			"  \"probabilidad_lluvia\": "+ prediccion[4] +",\n" +
+				"  \"velocidad_viento\": "+ prediccion[4] +",\n" +
+    			"  \"probabilidad_lluvia\": "+ prediccion[5] +",\n" +
     			"  \"recomendacion\": \"" + recomendacion + "\"\n" +
                 "}";
     	return json;

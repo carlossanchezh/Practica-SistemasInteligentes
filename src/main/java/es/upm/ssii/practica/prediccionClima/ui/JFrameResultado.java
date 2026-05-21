@@ -29,6 +29,7 @@ public class JFrameResultado extends JFrame {
     private JLabel etiquetaTempMaxima;
     private JLabel etiquetaTempMinima;
     private JLabel etiquetaNubes;
+    private JLabel etiquetaViento;
     private JLabel etiquetaLluvia;
     private JLabel etiquetaIcono;
     private JLabel etiquetaRopa;
@@ -43,8 +44,8 @@ public class JFrameResultado extends JFrame {
     private void inicializarUI() {
         setTitle("Predicción del Clima · Sistema JADE");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(460, 580);
-        setMinimumSize(new Dimension(420, 520));
+        setSize(460, 650);
+        setMinimumSize(new Dimension(460, 650));
         setLocationRelativeTo(null);
         setResizable(false);
 
@@ -116,6 +117,8 @@ public class JFrameResultado extends JFrame {
         JPanel maxMinPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         maxMinPanel.setOpaque(false);
 
+        maxMinPanel.setBorder(new EmptyBorder(10, 0, 0, 0));
+
         etiquetaTempMaxima = new JLabel("↑ ──°C");
         etiquetaTempMaxima.setFont(new Font("Segoe UI", Font.BOLD, 13));
         etiquetaTempMaxima.setForeground(ROJO_MAX);
@@ -138,7 +141,7 @@ public class JFrameResultado extends JFrame {
 
     private JPanel crearTarjetaMetricas() {
         JPanel panelPrincipal = crearpanelPrincipal();
-        panelPrincipal.setLayout(new GridLayout(2, 1, 0, 10));
+        panelPrincipal.setLayout(new GridLayout(3, 1, 0, 10));
 
         // Fila nubosidad
         JPanel filaNub = new JPanel(new BorderLayout());
@@ -151,6 +154,18 @@ public class JFrameResultado extends JFrame {
         etiquetaNubes.setForeground(BLANCO);
         filaNub.add(nubLabel, BorderLayout.WEST);
         filaNub.add(etiquetaNubes, BorderLayout.EAST);
+
+        // Fila viento
+        JPanel filaViento = new JPanel(new BorderLayout());
+        filaViento.setOpaque(false);
+        JLabel vientoLabel = new JLabel("-> Velocidad del viento");
+        vientoLabel.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        vientoLabel.setForeground(TEXTO_SUBELEM);
+        etiquetaViento = new JLabel("── km/h", SwingConstants.RIGHT);
+        etiquetaViento.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        etiquetaViento.setForeground(BLANCO);
+        filaViento.add(vientoLabel, BorderLayout.WEST);
+        filaViento.add(etiquetaViento, BorderLayout.EAST);
 
         // Fila lluvia
         JPanel filaLluvia = new JPanel(new BorderLayout());
@@ -165,6 +180,7 @@ public class JFrameResultado extends JFrame {
         filaLluvia.add(etiquetaLluvia, BorderLayout.EAST);
 
         panelPrincipal.add(filaNub);
+        panelPrincipal.add(filaViento);
         panelPrincipal.add(filaLluvia);
         return panelPrincipal;
     }
@@ -194,8 +210,11 @@ public class JFrameResultado extends JFrame {
         etiquetaTempMaxima.setText(String.format("Temp. Max: ↑ %.1f°C", p.getTemperaturaMax()));
         etiquetaTempMinima.setText(String.format("Temp. Min: ↓ %.1f°C", p.getTemperaturaMin()));
 
-        int pctNub = (int) Math.round(p.getNubosidad() * 100);
-        etiquetaNubes.setText(pctNub + "%");
+        int pctNub = (int) Math.round(p.getNubosidad());
+        etiquetaNubes.setText(pctNub + "/10");
+
+        double viento = p.getVelocidadViento();
+        etiquetaViento.setText(String.format("%.1f km/h", viento));
 
         int pctLluvia = (int) Math.round(p.getProbabilidadLluvia() * 100);
         etiquetaLluvia.setText(pctLluvia + "%");
@@ -226,7 +245,7 @@ public class JFrameResultado extends JFrame {
         };
         panelPrincipal.setOpaque(false);
         panelPrincipal.setBorder(new EmptyBorder(18, 20, 18, 20));
-        panelPrincipal.setMaximumSize(new Dimension(Integer.MAX_VALUE, 130));
+        panelPrincipal.setMaximumSize(new Dimension(Integer.MAX_VALUE, 160));
         panelPrincipal.setAlignmentX(Component.LEFT_ALIGNMENT);
         return panelPrincipal;
     }
@@ -237,6 +256,7 @@ public class JFrameResultado extends JFrame {
         btn.setBackground(new Color(45, 55, 88));
         btn.setBorder(new EmptyBorder(8, 28, 8, 28));
         btn.setFocusPainted(false);
+        btn.setBorderPainted(false);
         btn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btn.setOpaque(true);
         btn.addMouseListener(new java.awt.event.MouseAdapter() {

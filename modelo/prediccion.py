@@ -39,12 +39,14 @@ try:
     scaler_temp_min = joblib.load(os.path.join(normalizadores_dir, 'scaler_temp_min.pkl'))
     scaler_temp_mean = joblib.load(os.path.join(normalizadores_dir, 'scaler_temp_mean.pkl'))
     scaler_cloud = joblib.load(os.path.join(normalizadores_dir, 'scaler_cloud.pkl'))
+    scaler_wind = joblib.load(os.path.join(normalizadores_dir, 'scaler_wind.pkl'))
 
     # Cargar los 5 modelos entrenados
     model_temp_max = load_model(os.path.join(modelos_dir, 'mejor_modelo_temp_max.keras'))
     model_temp_min = load_model(os.path.join(modelos_dir, 'mejor_modelo_temp_min.keras'))
     model_temp_mean = load_model(os.path.join(modelos_dir, 'mejor_modelo_temp_mean.keras'))
     model_cloud = load_model(os.path.join(modelos_dir, 'mejor_modelo_cloud.keras'))
+    model_wind = load_model(os.path.join(modelos_dir, 'mejor_modelo_wind.keras'))
     model_rain = load_model(os.path.join(modelos_dir, 'mejor_modelo_rain.keras'))
 
 except Exception as e:
@@ -93,6 +95,7 @@ def main():
     pred_min_norm = model_temp_min.predict(datos_norm, verbose=0)[0][0]
     pred_mean_norm = model_temp_mean.predict(datos_norm, verbose=0)[0][0]
     pred_cloud_norm = model_cloud.predict(datos_norm, verbose=0)[0][0]
+    pred_wind_norm = model_wind.predict(datos_norm, verbose=0)[0][0]
 
     # Predicciones de fenómenos (probabilidades)
     pred_rain = model_rain.predict(datos_norm, verbose=0)[0][0]
@@ -106,6 +109,7 @@ def main():
     temp_min = scaler_temp_min.inverse_transform([[pred_min_norm]])[0][0]
     temp_mean = scaler_temp_mean.inverse_transform([[pred_mean_norm]])[0][0]
     cloud_cover = scaler_cloud.inverse_transform([[pred_cloud_norm]])[0][0]
+    wind_speed = scaler_wind.inverse_transform([[pred_wind_norm]])[0][0]  # ← NUEVO
 
     # ========================================
     # DEVOLVER RESULTADO PARA JAVA
@@ -113,7 +117,7 @@ def main():
 
     # Formato: temp_max,temp_min,temp_mean,cloud_cover,llovera
 
-    print(f"{temp_max:.1f},{temp_min:.1f},{temp_mean:.1f},{cloud_cover:.0f},{pred_rain:.2f}", file=sys.stdout)
+    print(f"{temp_max:.1f},{temp_min:.1f},{temp_mean:.1f},{cloud_cover:.0f},{wind_speed:.1f},{pred_rain:.2f}", file=sys.stdout)
 
 if __name__ == "__main__":
     main()
