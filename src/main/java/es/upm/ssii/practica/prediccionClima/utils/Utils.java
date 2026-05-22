@@ -63,7 +63,7 @@ public class Utils {
                 // Crear y enviar mensaje
                 ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
                 msg.addReceiver(destino);
-                msg.setContent((String) contenido);
+                msg.setContentObject(contenido);
                 agente.send(msg);
 
                 System.out.println("Inform Enviado: " + agente.getLocalName() + " -> " + destino.getLocalName());
@@ -74,4 +74,42 @@ public class Utils {
             System.err.println("Error: " + e.getMessage());
         }
     }
+
+    public static void enviarInform(Agent agente, String tipoServicio, Serializable contenido, String ontologia) {
+        try {
+            // Crear plantilla de búsqueda
+            DFAgentDescription template = new DFAgentDescription();
+            ServiceDescription sd = new ServiceDescription();
+            sd.setType(tipoServicio);
+            template.addServices(sd);
+
+            // Buscar en el DF
+            DFAgentDescription[] results = DFService.search(agente, template);
+
+            // Si encontró el servicio
+            if (results.length > 0) {
+                // Obtener el AID del agente
+                AID destino = results[0].getName();
+
+                // Crear y enviar mensaje
+                ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
+                msg.addReceiver(destino);
+                msg.setContentObject(contenido);
+
+                if (ontologia != null && !ontologia.isEmpty()) {
+                    msg.setOntology(ontologia);
+                }
+
+                agente.send(msg);
+
+                String ontMsg = (ontologia != null) ? " (ontología: " + ontologia + ")" : "";
+                System.out.println("Inform Enviado: " + agente.getLocalName() + " -> " + destino.getLocalName() + ontMsg);
+            } else {
+                System.out.println("No se encontró servicio: " + tipoServicio);
+            }
+        } catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+    }
 }
+

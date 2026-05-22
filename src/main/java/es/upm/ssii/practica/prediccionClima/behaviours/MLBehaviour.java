@@ -11,6 +11,9 @@ import es.upm.ssii.practica.prediccionClima.utils.Utils;
 
 public class MLBehaviour  extends CyclicBehaviour {
 
+	//Filtro para recibir solo mensajes de tipo inform y de ontologia observacion
+	private static final MessageTemplate filtroObservacion = MessageTemplate.and(MessageTemplate.MatchPerformative(ACLMessage.INFORM), MessageTemplate.MatchOntology("observacion"));
+
     public MLBehaviour(Agent agent) {
         super(agent);
     }
@@ -18,10 +21,10 @@ public class MLBehaviour  extends CyclicBehaviour {
 	@Override
     public void action() {
         //recibe mensajes inform que le manda el agente de percepcion
-        ACLMessage mensaje = myAgent.receive(MessageTemplate.MatchPerformative(ACLMessage.INFORM));
+		ACLMessage mensaje = myAgent.receive(filtroObservacion);
         if(mensaje != null) {
-        	
-        		String json = mensaje.getContent();//obtener json del mensaje
+			try {
+				String json = (String) mensaje.getContentObject();//obtener json del mensaje
         		System.out.println("Mensaje recibido en ML:");
         		System.out.println(json);
         		
@@ -60,11 +63,14 @@ public class MLBehaviour  extends CyclicBehaviour {
         		System.out.println(jsonPrediccion);
         		
         		//envia peticion al agente de interfaz
-        		Utils.enviarInform(myAgent, "Interfaz", jsonPrediccion);
+        		Utils.enviarInform(myAgent, "Interfaz", jsonPrediccion, "prediccion");
         		System.out.println("Prediccion enviada al agente interfaz");
-        		Utils.enviarInform(myAgent, "Alertas", jsonPrediccion);
+        		Utils.enviarInform(myAgent, "Alertas", jsonPrediccion, "prediccion");
         		System.out.println("Prediccion enviada al agente alertas");
-        	
+
+			} catch (UnreadableException e) {
+				System.err.println("Error: " + e.getMessage());
+			}
         }
         else { //si no llega mensaje el agente espera
         	block();
@@ -116,8 +122,7 @@ public class MLBehaviour  extends CyclicBehaviour {
     }
     //creamos el json con toda la informacion finl
     private String crearJsonPrediccion(double[] prediccion, String recomendacion) {
-    	String json = "{\n" +
-    			"  \"tipo\" : \"prediccion\", \n" +
+		String json = "{\n" +
     			"  \"temperatura_max\": "+ prediccion[0] +",\n" +
     			"  \"temperatura_min\": "+ prediccion[1] +",\n" +
     			"  \"temperatura_media\": "+ prediccion[2] +",\n" +

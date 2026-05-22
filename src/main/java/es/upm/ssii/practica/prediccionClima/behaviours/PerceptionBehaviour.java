@@ -27,7 +27,7 @@ public class PerceptionBehaviour extends TickerBehaviour {
             System.out.println(json);
             System.out.println("==========================================\n");
             //Envío al siguiente agente (ML)
-            Utils.enviarInform(myAgent, "ML", json);
+            Utils.enviarInform(myAgent, "ML", json,"observacion");
             System.out.println("Mensaje enviado al agente ML\n");
         } catch (Exception e) {
             System.err.println("Error en PerceptionBehaviour: " + e.getMessage());
@@ -42,7 +42,6 @@ public class PerceptionBehaviour extends TickerBehaviour {
         String descripcion = escaparJSON((String) datos.get("description"));
         //construyo JSON
         return "{\n" +
-               "  \"tipo\": \"observacion\",\n" +
                "  \"ciudad\": \"" + ciudad + "\",\n" +
                "  \"timestamp\": \"" + timestamp + "\",\n" +
                "  \"temperatura\": " + datos.get("temp") + ",\n" +
