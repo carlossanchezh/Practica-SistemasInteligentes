@@ -1,6 +1,7 @@
 package es.upm.ssii.practica.prediccionClima.launcher;
 
 import es.upm.ssii.practica.prediccionClima.agents.InterfaceAgent;
+import es.upm.ssii.practica.prediccionClima.agents.AlertAgent;
 import es.upm.ssii.practica.prediccionClima.agents.MLAgent;
 import es.upm.ssii.practica.prediccionClima.agents.PerceptionAgent;
 import jade.core.Runtime;
@@ -43,6 +44,8 @@ public class Main {
             cc.createNewAgent(MLAgent.NICKNAME, MLAgent.class.getName(), new Object[]{"o"}).start();
 
             cc.createNewAgent(InterfaceAgent.NICKNAME, InterfaceAgent.class.getName(), new Object[]{"o"}).start();
+            
+            cc.createNewAgent(AlertAgent.NICKNAME, AlertAgent.class.getName(), new Object[]{"o"}).start();
 
         } catch (StaleProxyException e) {
             System.err.println("Error during boot!!!");

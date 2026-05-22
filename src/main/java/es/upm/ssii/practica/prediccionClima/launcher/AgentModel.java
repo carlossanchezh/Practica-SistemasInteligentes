@@ -4,6 +4,7 @@ public enum AgentModel {
     PERCEPCION("Percepcion"),
     ML("ML"),
     INTERFAZ("Interfaz"),
+    ALERTAS("Alertas"),
     DESCONOCIDO("Desconocido");
 
     private final String value;
@@ -21,6 +22,7 @@ public enum AgentModel {
             case "Percepcion": return PERCEPCION;
             case "ML": return ML;
             case "Interfaz": return INTERFAZ;
+            case "Alertas":    return ALERTAS;
             default: return DESCONOCIDO;
         }
     }

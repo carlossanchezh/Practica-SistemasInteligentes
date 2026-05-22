@@ -62,6 +62,8 @@ public class MLBehaviour  extends CyclicBehaviour {
         		//envia peticion al agente de interfaz
         		Utils.enviarInform(myAgent, "Interfaz", jsonPrediccion);
         		System.out.println("Prediccion enviada al agente interfaz");
+        		Utils.enviarInform(myAgent, "Alertas", jsonPrediccion);
+        		System.out.println("Prediccion enviada al agente alertas");
         	
         }
         else { //si no llega mensaje el agente espera
