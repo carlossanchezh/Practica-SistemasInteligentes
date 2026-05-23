@@ -48,4 +48,16 @@ public class UtilsUI {
         SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(
                 null, mensaje, "Sistema Meteorológico · JADE", JOptionPane.INFORMATION_MESSAGE));
     }
+    
+    //Mensaje de Alertas Metereológicas. Intentamos sacar el mensaje en limpio
+    public static void mostrarAlertas(String json) {
+
+        String mensaje = json.replace("{", "").replace("}", "").replace("\"", "").replace("[", "").replace("]", "").replace("alertas:", "").replace(",", "\n");
+
+        System.out.println("[UtilsUI] ALERTA: " + mensaje);
+
+        SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(
+                null,mensaje,"¡¡¡Alerta Meteorológica!!!",JOptionPane.WARNING_MESSAGE));
+    }
+
 }

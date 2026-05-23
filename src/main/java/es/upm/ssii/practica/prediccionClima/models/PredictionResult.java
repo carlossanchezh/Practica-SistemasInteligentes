@@ -10,6 +10,7 @@ package es.upm.ssii.practica.prediccionClima.models;
  *   "temperatura_min": ___,
  *   "temperatura_media": ____,
  *   "nubosidad": ___,
+ *   "velocidad_viento":______,
  *   "probabilidad_lluvia": ___,
  *   "recomendacion": _____
  * }

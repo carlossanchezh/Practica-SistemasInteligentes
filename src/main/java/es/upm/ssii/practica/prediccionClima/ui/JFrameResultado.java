@@ -31,7 +31,6 @@ public class JFrameResultado extends JFrame {
     private JLabel etiquetaNubes;
     private JLabel etiquetaViento;
     private JLabel etiquetaLluvia;
-    private JLabel etiquetaIcono;
     private JLabel etiquetaRopa;
 
     public JFrameResultado(PredictionResult p) {
@@ -229,7 +228,7 @@ public class JFrameResultado extends JFrame {
         repaint();
     }
 
-    // ── Helpers ──────────────────────────────────────────────────────────────
+    // Auxiliares
 
     /** Tarjeta con fondo redondeado y padding */
     private JPanel crearpanelPrincipal() {

@@ -79,7 +79,7 @@ public class InterfaceBehaviour extends CyclicBehaviour {
                 // FALTA IMPLEMENTAR MOSTRAR ALERTAS
                 // ==========================================
                 // Mostrar las alertas
-                //UtilsUI.mostrarAlertas(contenido);
+               UtilsUI.mostrarAlertas(contenido);
                 return;
             } catch (UnreadableException e) {
                 System.err.println("Error al leer alerta: " + e.getMessage());
@@ -92,5 +92,5 @@ public class InterfaceBehaviour extends CyclicBehaviour {
         }
     }
     
-    
+
 }
