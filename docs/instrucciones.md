@@ -51,3 +51,8 @@ Pulsar Apply and Close
 ### 3. Ejecutar
 Botón derecho sobre la raíz del proyecto → Run As → Java Application → seleccionar Main - es.upm.ssii.practica.prediccionClima.launcher. \
 Al arrancar, se iniciará la GUI de JADE (RMA) y los cuatro agentes:
+
+- **Percepción:** consulta la API de OpenWeatherMap 
+- **ML:** procesa los datos y genera predicciones
+- **Interfaz:** muestra los resultados en ventana gráfica
+- **Alertas:** genera alertas por condiciones extremas
