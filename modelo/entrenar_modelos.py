@@ -127,8 +127,12 @@ from tensorflow.keras.callbacks import TerminateOnNaN
 # CREAR CARPETAS NECESARIAS
 # ==========================
 
-os.makedirs('modelos', exist_ok=True)
-os.makedirs('normalizadores', exist_ok=True)
+# Obtener la ruta donde está el script ANTES de usarla
+script_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Crear carpetas dentro del directorio del script para guardar lso modelos y norm alizadores
+os.makedirs(os.path.join(script_dir, 'modelos'), exist_ok=True)
+os.makedirs(os.path.join(script_dir, 'normalizadores'), exist_ok=True)
 
 # ============================================
 # CARGAR DATOS

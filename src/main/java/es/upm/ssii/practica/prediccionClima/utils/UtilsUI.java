@@ -52,12 +52,65 @@ public class UtilsUI {
     //Mensaje de Alertas Metereológicas. Intentamos sacar el mensaje en limpio
     public static void mostrarAlertas(String json) {
 
-        String mensaje = json.replace("{", "").replace("}", "").replace("\"", "").replace("[", "").replace("]", "").replace("alertas:", "").replace(",", "\n");
+        try {
+            String mensaje = "";
 
-        System.out.println("[UtilsUI] ALERTA: " + mensaje);
+            // Extraer cada alerta individualmente
+            if (json.contains("Tormenta")) {
+                mensaje += "Tormenta: lluvia intensa y viento fuerte previstos\n";
+            }
+            if (json.contains("Lluvia")) {
 
-        SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(
-                null,mensaje,"¡¡¡Alerta Meteorológica!!!",JOptionPane.WARNING_MESSAGE));
+                int idx = json.indexOf("Lluvia: probabilidad alta (");
+                if (idx != -1) {
+                    int start = idx + "Lluvia: probabilidad alta (".length();
+                    int end = json.indexOf("%", start);
+                    String pct = json.substring(start, end);
+                    mensaje += "Lluvia: probabilidad alta (" + pct + "%)\n";
+                }
+            }
+            if (json.contains("Viento fuerte")) {
+                int idx = json.indexOf("Viento fuerte: ");
+                if (idx != -1) {
+                    int start = idx + "Viento fuerte: ".length();
+                    int end = json.indexOf("km/h", start);
+                    String viento = json.substring(start, end).trim();
+                    mensaje += "Viento fuerte: " + viento + " km/h\n";
+                }
+            }
+            if (json.contains("Calor extremo")) {
+                int idx = json.indexOf("Calor extremo: máxima de ");
+                if (idx != -1) {
+                    int start = idx + "Calor extremo: máxima de ".length();
+                    int end = json.indexOf("°C", start);
+                    String temp = json.substring(start, end);
+                    mensaje += "Calor extremo: máxima de " + temp + "°C\n";
+                }
+            }
+            if (json.contains("Frío extremo")) {
+                int idx = json.indexOf("Frío extremo: mínima de ");
+                if (idx != -1) {
+                    int start = idx + "Frío extremo: mínima de ".length();
+                    int end = json.indexOf("°C", start);
+                    String temp = json.substring(start, end);
+                    mensaje += "Frío extremo: mínima de " + temp + "°C\n";
+                }
+            }
+
+            if (mensaje.isEmpty()) {
+                mensaje = json;
+            }
+
+            System.out.println("[UtilsUI] ALERTA: " + mensaje);
+
+            final String msgFinal = mensaje;
+            SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(
+                    null, msgFinal, "¡¡¡Alerta Meteorológica!!!", JOptionPane.WARNING_MESSAGE));
+
+        } catch (Exception e) {
+            System.err.println("[UtilsUI] Error al mostrar alerta: " + e.getMessage());
+            mostrarMensaje("Error al procesar alerta: " + json);
+        }
     }
 
 }
