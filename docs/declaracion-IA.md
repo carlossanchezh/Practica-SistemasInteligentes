@@ -34,6 +34,9 @@ Hemos utilizado herramientas de inteligencia artificial exclusivamente para las 
 
 7. Ayuda con el formato de los archivos .md de la documentación
 
+
+8. Selección de paleta de colores para la presentación
+
 ## Referencias a documentación de la Asignatura
 
 Hemos utilizado las diapositivas de la signatura para la realización de la práctica, en concreto
