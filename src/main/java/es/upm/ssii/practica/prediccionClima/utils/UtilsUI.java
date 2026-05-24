@@ -15,7 +15,7 @@ public class UtilsUI {
     
     //Parsea el JSON de predicción enviado por MLBehaviour y abre la ventana.
     public static void mostrarPrediccion(String jsonPrediccion) {
-        if (jsonPrediccion == null || jsonPrediccion.isBlank()) {
+        if (jsonPrediccion == null || jsonPrediccion.trim().isEmpty()) {
             mostrarError("El mensaje de predicción recibido está vacío.");
             return;
         }

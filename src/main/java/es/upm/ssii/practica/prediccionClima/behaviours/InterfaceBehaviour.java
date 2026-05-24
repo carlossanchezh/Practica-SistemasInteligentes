@@ -39,7 +39,7 @@ public class InterfaceBehaviour extends CyclicBehaviour {
                 System.out.println("Contenido:\n" + contenido);
                 System.out.println("==========================================\n");
 
-                if (contenido == null || contenido.isBlank()) {
+                if (contenido == null || contenido.trim().isEmpty()) {
                     System.err.println("[InterfaceBehaviour] Contenido vacío, ignorando.");
                     return;
                 }
@@ -69,7 +69,7 @@ public class InterfaceBehaviour extends CyclicBehaviour {
                 System.out.println("Contenido:\n" + contenido);
                 System.out.println("==========================================\n");
 
-                if (contenido == null || contenido.isBlank()) {
+                if (contenido == null || contenido.trim().isEmpty()) {
                     System.err.println("[InterfaceBehaviour] Contenido de alerta vacío, ignorando.");
                     return;
                 }
