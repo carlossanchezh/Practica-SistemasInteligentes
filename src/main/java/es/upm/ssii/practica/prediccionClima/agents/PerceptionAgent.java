@@ -11,11 +11,21 @@ public class PerceptionAgent extends AgentBase {
 
     @Override
     protected void setup() {
+
+        System.out.println("Iniciando: " + getLocalName());
+
         super.setup(); //setup de AgentBase (inicializa el agente en JADE) y recoge parametros si tiene
         this.type = AgentModel.PERCEPCION; // asigna que es el agente de RECEPCION
         registerAgentDF(); // registra el agente en el DF para que otros puedan encontrarlo
 
-        addBehaviour(new PerceptionBehaviour(this, 30000)); //cada 30 segundos se envía info actualizada
+        int minuto = 60000;
+        int hora = minuto * 60;
+
+        int period = hora * 12; //Cada cuanto se consultaran los datos de la API
+
+        addBehaviour(new PerceptionBehaviour(this, period));
+
+        System.out.println("[PerceptionAgent] Registrado en DF y esperando datos de la API.");
     }
 
 }

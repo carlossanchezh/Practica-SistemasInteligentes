@@ -62,30 +62,4 @@ public class PythonConnector {
         return null;
     }
 
-    //=============================================================================================================
-    //¡¡¡¡¡¡¡¡¡¡¡¡¡SOLO PARA DEPURAR EL CONECTOR BORRAR ESTA PARTE AL JUNTARLO CON EL COMPORTAMIENTO ML!!!!!!!!!!!!!
-    //=============================================================================================================
-    public static void main(String[] args) {
-        System.out.println("=== Test PythonConnector ===\n");
-
-        System.out.println("Test 1 - Entrada: 15°C, 65%, 8km/h, 3/10");
-        double[] r1 = ejecutarPrediccion(15.0, 65, 8.0, 3);
-        if (r1 != null) {
-            System.out.println("  Resultado: " + r1[0] + "," + r1[1] + "," +
-                    r1[2] + "," + (int) r1[3] + "," + r1[4] + "," + r1[5]);
-        } else {
-            System.out.println("  ERROR");
-        }
-
-        System.out.println("\nTest 2 - Entrada: 28°C, 45%, 12km/h, 2/10");
-        double[] r2 = ejecutarPrediccion(28.0, 45, 12.0, 2);
-        if (r2 != null) {
-            System.out.println("  Resultado: " + r2[0] + "," + r2[1] + "," +
-                    r2[2] + "," + (int) r2[3] + "," + r2[4] + "," + r2[5]);
-        } else {
-            System.out.println("  ERROR");
-        }
-
-        System.out.println("\n=== Test completado ===");
-    }
 }

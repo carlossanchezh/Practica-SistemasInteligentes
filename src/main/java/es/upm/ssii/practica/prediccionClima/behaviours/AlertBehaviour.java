@@ -29,9 +29,13 @@ public class AlertBehaviour extends CyclicBehaviour {
         ACLMessage mensaje = myAgent.receive(filtroPrediccion);
 
         if (mensaje != null) {
-            System.out.println("[AlertBehaviour] Prediccion recibida, evaluando alertas...");
             try{
                 String json = (String) mensaje.getContentObject();
+
+                System.out.println("\n");
+                System.out.println("Prediccion recibida en Alertas");
+                System.out.println(json);
+                System.out.println("\n");
 
                 double tempMax          = extraerDouble(json, "temperatura_max");
                 double tempMin          = extraerDouble(json, "temperatura_min");
@@ -83,11 +87,14 @@ public class AlertBehaviour extends CyclicBehaviour {
                 resultado += "  ]\n}";
 
                 if (hayAlertas) {
-                    System.out.println("[AlertBehaviour] Alertas detectadas, enviando a Interfaz:");
+                    System.out.println("Alertas detectadas, enviando a Interfaz:");
                     System.out.println(resultado);
+                    System.out.println("\n");
+
                     Utils.enviarInform(myAgent, "Interfaz", resultado, "alerta");
                 } else {
-                    System.out.println("[AlertBehaviour] Sin alertas para las condiciones actuales.");
+                    System.out.println("Sin alertas para las condiciones actuales.");
+                    System.out.println("\n");
                 }
 
             } catch (UnreadableException e) {

@@ -11,6 +11,8 @@
 
 Sistema multiagente desarrollado con **JADE** que predice las condiciones meteorológicas del día siguiente en Madrid utilizando **redes neuronales** entrenadas con datos históricos.
 
+Sistema diseñado para ser desplegado a una hora del día en la cual la temperatura sea media (sobre las 12:00, 00:00) y trabajar en segundo plano realizando una predicción de los datos meteorológicos del día siguiente y alertando en caso de condiciones extremas.
+
 ## Arquitectura
 
 ### Agentes
@@ -27,7 +29,7 @@ Sistema multiagente desarrollado con **JADE** que predice las condiciones meteor
 - **InterfaceAgent** (Interfaz)  
   Muestra predicciones y alertas recibidas en una ventana gráfica.
 
-## Comunicación
+### Comunicación
 
 - **Directory Facilitator (DF)**
   - Todos los agentes se registran en el DF de JADE al iniciarse, indicando el tipo de servicio que ofrecen
@@ -41,6 +43,8 @@ Sistema multiagente desarrollado con **JADE** que predice las condiciones meteor
   - El contenido de los mensajes se envia en formato JSON
 - **Filtros bloqueantes**
   - Los agentes utilizan MessageTemplate con filtros bloqueantes para recibir únicamente mensajes del tipo y ontología que les interese
+
+Ver [DiagramaArquitectura.svg](docs/DiagramaArquitectura.svg)
 
 ### Tecnologías
 

@@ -11,10 +11,15 @@ public class AlertAgent extends AgentBase {
 
     @Override
     protected void setup() {
-        super.setup();
-        this.type = AgentModel.ALERTAS;
-        registerAgentDF();
+
+        System.out.println("Iniciando: " + getLocalName());
+
+        super.setup(); // setup de AgentBase
+        this.type = AgentModel.ALERTAS; // asigna que es el agente de ALERTAS
+        registerAgentDF(); // registra el agente en el DF para que otros puedan encontrarlo
+
         addBehaviour(new AlertBehaviour(this));
-        System.out.println("[AlertAgent] Iniciado y registrado en DF.");
+
+        System.out.println("[AlertAgent] Registrado en DF y esperando predicciones.");
     }
 }

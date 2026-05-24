@@ -26,18 +26,14 @@ public class InterfaceBehaviour extends CyclicBehaviour {
 
         if (prediccion != null) {
             try {
-                System.out.println("MENSAJE RECIBIDO EN INTERFAZ");
-
-
-
-                System.out.println("\n==========================================");
-                System.out.println("[InterfaceBehaviour] Mensaje recibido de: "
-                        + prediccion.getSender().getName());
 
                 String contenido = (String) prediccion.getContentObject();
 
-                System.out.println("Contenido:\n" + contenido);
-                System.out.println("==========================================\n");
+                System.out.println("\n");
+                System.out.println("Prediccion recibida en Interfaz");
+                System.out.println(contenido);
+                System.out.println("\n");
+
 
                 if (contenido == null || contenido.trim().isEmpty()) {
                     System.err.println("[InterfaceBehaviour] Contenido vacío, ignorando.");
@@ -57,27 +53,20 @@ public class InterfaceBehaviour extends CyclicBehaviour {
 
         if (alerta != null) {
             try{
-                System.out.println("MENSAJE DE ALERTA RECIBIDO EN INTERFAZ");
-
-                System.out.println("\n==========================================");
-                System.out.println("[InterfaceBehaviour] Alerta recibida de: "
-                        + alerta.getSender().getName());
-                System.out.println("Ontología: " + alerta.getOntology());
 
                 String contenido = (String) alerta.getContentObject();
 
-                System.out.println("Contenido:\n" + contenido);
-                System.out.println("==========================================\n");
+                System.out.println("\n");
+                System.out.println("Alerta recibida en Interfaz");
+                System.out.println(contenido);
+                System.out.println("\n");
+
 
                 if (contenido == null || contenido.trim().isEmpty()) {
                     System.err.println("[InterfaceBehaviour] Contenido de alerta vacío, ignorando.");
                     return;
                 }
 
-
-                // ==========================================
-                // FALTA IMPLEMENTAR MOSTRAR ALERTAS
-                // ==========================================
                 // Mostrar las alertas
                UtilsUI.mostrarAlertas(contenido);
                 return;

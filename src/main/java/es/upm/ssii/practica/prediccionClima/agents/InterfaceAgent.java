@@ -16,23 +16,16 @@ public class InterfaceAgent extends AgentBase {
 
     @Override
     protected void setup() {
-        System.out.println("[InterfaceAgent] Iniciando: " + getLocalName());
 
-        super.setup();                      // setup de AgentBase
-        this.type = AgentModel.INTERFAZ;    
-        registerAgentDF();                  
+        System.out.println("Iniciando: " + getLocalName());
+
+        super.setup(); // setup de AgentBase
+        this.type = AgentModel.INTERFAZ; // asigna que es el agente de INTERFAZ
+        registerAgentDF();  // registra el agente en el DF para que otros puedan encontrarlo
+
         addBehaviour(new InterfaceBehaviour(this));
 
         System.out.println("[InterfaceAgent] Registrado en DF y esperando predicciones.");
     }
 
-    @Override
-    protected void takeDown() {
-        try {
-            DFService.deregister(this);
-            System.out.println("[InterfaceAgent] Desregistrado del DF.");
-        } catch (FIPAException e) {
-            System.err.println("[InterfaceAgent] Error al desregistrar: " + e.getMessage());
-        }
-    }
 }

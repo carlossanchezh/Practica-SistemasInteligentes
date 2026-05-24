@@ -25,20 +25,21 @@ public class MLBehaviour  extends CyclicBehaviour {
         if(mensaje != null) {
 			try {
 				String json = (String) mensaje.getContentObject();//obtener json del mensaje
-        		System.out.println("Mensaje recibido en ML:");
+
+				System.out.println("\n");
+				System.out.println("Observacion recibida en ML:");
         		System.out.println(json);
+				System.out.println("\n");
         		
         		//extraemso los datos necesarios para enviarlos al modelo
         		double temperatura = extraerDouble(json, "temperatura");
         		int humedad = extraerInt(json, "humedad");
         		double viento = extraerDouble(json, "viento");
         		int nubosidad = extraerInt(json, "nubosidad");
-        		System.out.println("Datos extraidos en ML:");
-        		System.out.println("Temperatura: "+ temperatura);
-        		System.out.println("Humedad: "+ humedad);
-        		System.out.println("Viento: "+ viento);
-        		System.out.println("Nubosidad: "+ nubosidad);
-        		
+
+				System.out.println("Ejecutando predicción con el modelo de red neuronal");
+				System.out.println("\n");
+
         		//llamar al modelo de python para obtener la prediccion
         		double[] prediccion = PythonConnector.ejecutarPrediccion(temperatura, humedad, viento, nubosidad);
         		if(prediccion == null) {//por si falla la llamada
@@ -52,21 +53,22 @@ public class MLBehaviour  extends CyclicBehaviour {
         		System.out.println("Nubosidad: "+ prediccion[3]);
 				System.out.println("Velocidad del viento: "+ prediccion[4]);
         		System.out.println("Probabilidad lluvia: "+ prediccion[5]);
+				System.out.println("\n");
         		
         		//genera recomendacion sencilla de ropa segun prediccion
         		String recomendacion = generarRecomendacion(prediccion[2], prediccion[5]);
-        		System.out.println("Recomendacion: "+ recomendacion);
         		
         		//creamos json de la prediccion final
         		String jsonPrediccion = crearJsonPrediccion(prediccion, recomendacion);
-        		System.out.println("Json de prediccion generado:");
+        		System.out.println("Prediccion lista para enviar:");
         		System.out.println(jsonPrediccion);
+				System.out.println("\n");
         		
         		//envia peticion al agente de interfaz
         		Utils.enviarInform(myAgent, "Interfaz", jsonPrediccion, "prediccion");
-        		System.out.println("Prediccion enviada al agente interfaz");
+
         		Utils.enviarInform(myAgent, "Alertas", jsonPrediccion, "prediccion");
-        		System.out.println("Prediccion enviada al agente alertas");
+
 
 			} catch (UnreadableException e) {
 				System.err.println("Error: " + e.getMessage());

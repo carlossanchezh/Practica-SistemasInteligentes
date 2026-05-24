@@ -26,7 +26,7 @@ public class UtilsUI {
                 catch (Exception ignored) {}
                 JFrameResultado ventana = new JFrameResultado(prediccion);
                 ventana.setVisible(true);
-                System.out.println("[UtilsUI] Ventana abierta. " + prediccion);
+
             });
         } catch (Exception e) {
             mostrarError("Error al procesar la predicción: " + e.getMessage());
@@ -44,7 +44,7 @@ public class UtilsUI {
     //Mensaje informativo
     //Usamos SwingUtilities.invokeLater para crear otro hilo que espere y así evitar que congele el sistema
     public static void mostrarMensaje(String mensaje) {
-        System.out.println("[UtilsUI] INFO: " + mensaje);
+
         SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(
                 null, mensaje, "Sistema Meteorológico · JADE", JOptionPane.INFORMATION_MESSAGE));
     }
@@ -100,8 +100,6 @@ public class UtilsUI {
             if (mensaje.isEmpty()) {
                 mensaje = json;
             }
-
-            System.out.println("[UtilsUI] ALERTA: " + mensaje);
 
             final String msgFinal = mensaje;
             SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(
