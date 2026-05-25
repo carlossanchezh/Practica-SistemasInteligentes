@@ -118,3 +118,7 @@ Los directorios **modelos/** y **normalizadores/** se crean automáticamente al 
 ## Instalación y ejecución
 
 Ver [instrucciones.md](docs/instrucciones.md)
+
+## Presentación
+
+Ver [Presentacion.pptx](docs/Presentacion.pptx)
